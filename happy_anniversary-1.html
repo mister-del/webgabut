@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Anniversary ♡</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Georgia,"Times New Roman",serif}
+body{
+  background:
+    radial-gradient(circle at 20% 15%,rgba(255,255,255,.8),transparent 25%),
+    radial-gradient(circle at 85% 80%,rgba(255,190,220,.65),transparent 30%),
+    linear-gradient(135deg,#ffdce9,#f9c9dc 48%,#ffe5ef);
+  color:#713f55;
+}
+#app{position:relative;width:100%;height:100%;overflow:hidden}
+canvas{position:absolute;inset:0;pointer-events:none}
+.layer{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:28px;opacity:0;visibility:hidden;transform:scale(.97);
+  transition:opacity 1s ease,transform 1.2s cubic-bezier(.22,.61,.36,1),visibility 1s;
+}
+.layer.active{opacity:1;visibility:visible;transform:scale(1)}
+.card{
+  position:relative;width:min(700px,94vw);max-height:86vh;overflow:auto;
+  padding:42px 30px 34px;text-align:center;
+  background:rgba(255,245,249,.68);border:1px solid rgba(255,255,255,.8);
+  border-radius:32px;box-shadow:0 25px 70px rgba(130,55,91,.18),inset 0 1px 0 white;
+  backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+}
+.card::-webkit-scrollbar{width:5px}.card::-webkit-scrollbar-thumb{background:#e9a7c1;border-radius:10px}
+.kicker{font-family:Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;font-size:11px;color:#a45b79}
+h1{font-size:clamp(34px,8vw,64px);margin:12px 0 18px;color:#9b4167;text-shadow:0 2px 15px rgba(190,78,125,.18)}
+h2{font-size:clamp(28px,6vw,46px);margin:10px 0 18px;color:#9b4167}
+.poem{font-size:clamp(16px,3.5vw,20px);line-height:1.9;margin:0 auto 24px;max-width:580px}
+.name{color:#c04d7a;font-weight:bold}
+button{
+  border:0;cursor:pointer;font:600 15px Arial,sans-serif;color:white;
+  padding:14px 25px;border-radius:999px;background:linear-gradient(135deg,#d76591,#b94670);
+  box-shadow:0 9px 25px rgba(180,65,106,.25);transition:transform .25s ease,box-shadow .25s ease;
+}
+button:hover{transform:translateY(-2px);box-shadow:0 13px 30px rgba(180,65,106,.34)}
+button:active{transform:scale(.96)}
+.icon-btn{
+  position:absolute;top:17px;right:18px;width:43px;height:43px;padding:0;
+  display:grid;place-items:center;font-size:20px;background:rgba(255,255,255,.65);color:#ad5275;
+  box-shadow:none;border:1px solid rgba(255,255,255,.8)
+}
+.cupid{
+  width:180px;height:180px;margin:0 auto 8px;position:relative;animation:float 3.5s ease-in-out infinite;
+  filter:drop-shadow(0 15px 18px rgba(150,65,100,.18));
+}
+.cupid .head{position:absolute;width:65px;height:65px;border-radius:50%;background:#ffd8c9;left:57px;top:25px}
+.cupid .hair{position:absolute;width:68px;height:39px;border-radius:50% 50% 45% 45%;background:#b65a55;left:55px;top:18px}
+.cupid .body{position:absolute;width:76px;height:78px;border-radius:45% 45% 35% 35%;background:#fff;left:52px;top:83px}
+.cupid .wing{position:absolute;width:65px;height:85px;border-radius:60% 40% 65% 35%;background:rgba(255,255,255,.9);top:82px}
+.cupid .w1{left:12px;transform:rotate(-22deg)}.cupid .w2{right:10px;transform:scaleX(-1) rotate(-22deg)}
+.cupid .heart{position:absolute;left:73px;top:96px;font-size:34px;animation:pulse 1.2s infinite}
+.cupid .arrow{position:absolute;width:100px;height:3px;background:#9d664b;transform:rotate(-18deg);left:105px;top:84px}
+.cupid .arrow:after{content:"";position:absolute;right:-2px;top:-5px;border-left:10px solid #9d664b;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.cupid .bow{position:absolute;border:3px solid #a7654c;border-left:0;border-radius:50%;width:38px;height:58px;left:116px;top:62px;transform:rotate(-20deg)}
+@keyframes float{50%{transform:translateY(-9px) rotate(1deg)}}@keyframes pulse{50%{transform:scale(1.15)}}
+.signature{margin-top:24px;font-style:italic;color:#a05272}
+.fadeout{animation:bye 2.4s ease forwards!important}@keyframes bye{to{opacity:0;filter:blur(8px);transform:scale(1.05)}}
+.small{font-family:Arial,sans-serif;font-size:12px;opacity:.65;margin-top:16px}
+</style>
+</head>
+<body>
+<div id="app">
+<canvas id="fx"></canvas>
+
+<section class="layer active" id="layer1">
+  <div class="card">
+    <button class="icon-btn" data-sound="click" aria-label="suara">♫</button>
+    <div class="kicker">untuk seseorang yang spesial</div>
+    <h1>Happy Anniversary ♡</h1>
+    <p class="poem">
+      Untuk <span class="name" id="name1">kamu</span>,<br>
+      waktu boleh terus berjalan,<br>
+      tapi ada satu hal yang ingin tetap tinggal:<br>
+      rasa yang tumbuh pelan-pelan,<br>
+      lalu berubah menjadi rumah di hati.<br><br>
+      Terima kasih sudah menjadi bagian<br>
+      dari cerita yang ingin terus kutulis.
+    </p>
+    <button onclick="nextLayer()">Lanjut ♡</button>
+    <div class="small">tap tombol untuk lanjut</div>
+  </div>
+</section>
+
+<section class="layer" id="layer2">
+  <div class="card">
+    <button class="icon-btn" data-sound="click" aria-label="suara">♫</button>
+    <div class="cupid" aria-hidden="true">
+      <div class="head"></div><div class="hair"></div><div class="body"></div>
+      <div class="wing w1"></div><div class="wing w2"></div><div class="heart">♥</div>
+      <div class="arrow"></div><div class="bow"></div>
+    </div>
+    <div class="kicker">sebuah puisi kecil</div>
+    <h2>Tentang Kita</h2>
+    <p class="poem">
+      Kalau cinta adalah perjalanan,<br>
+      aku tak ingin buru-buru sampai.<br>
+      Aku ingin menikmati setiap langkah,<br>
+      setiap tawa, setiap cerita,<br>
+      bahkan hari-hari yang tak sempurna.<br><br>
+      Sebab yang membuatnya indah bukan karena semuanya mudah,<br>
+      tapi karena kita masih memilih untuk saling menggenggam.
+    </p>
+    <button onclick="nextLayer()">Satu halaman lagi ♡</button>
+  </div>
+</section>
+
+<section class="layer" id="layer3">
+  <div class="card">
+    <button class="icon-btn" data-sound="click" aria-label="suara">♫</button>
+    <div class="kicker">hal terakhir</div>
+    <h2>Terima Kasih ♡</h2>
+    <p class="poem">
+      Terima kasih untuk semua waktu, perhatian,<br>
+      kesabaran, tawa, dan cerita yang sudah kita lewati.<br><br>
+      Semoga ke depannya kita selalu diberi hati yang tenang,<br>
+      langkah yang baik, dan alasan untuk terus bersyukur.<br>
+      Semoga apa pun yang kita hadapi,<br>
+      kita bisa belajar menjadi lebih dewasa dan lebih baik.<br><br>
+      <strong>Semoga cerita ini bukan cuma tentang hari ini,<br>
+      tapi tentang banyak hari indah yang masih menunggu.</strong>
+    </p>
+    <div class="signature">— dari seseorang yang bersyukur pernah bertemu kamu</div>
+    <br>
+    <button onclick="finish()">Tutup surat ♡</button>
+  </div>
+</section>
+</div>
+
+<script>
+const canvas=document.getElementById('fx'),ctx=canvas.getContext('2d');
+let W,H,dpr,particles=[],hearts=[],stars=[];
+function resize(){
+  dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
+  canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px';
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+addEventListener('resize',resize);resize();
+
+function rand(a,b){return Math.random()*(b-a)+a}
+function make(){
+  particles=Array.from({length:95},()=>({x:rand(0,W),y:rand(0,H),r:rand(.5,2.2),a:rand(.2,.9),s:rand(.08,.35)}));
+  hearts=Array.from({length:22},()=>({x:rand(0,W),y:rand(H,H+H),s:rand(10,25),v:rand(.25,.8),a:rand(.15,.5),rot:rand(-.5,.5)}));
+}
+make();
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.y-=p.s;if(p.y<0)p.y=H;
+    ctx.globalAlpha=p.a*(.55+.45*Math.sin(Date.now()/700+p.x));
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  });
+  hearts.forEach(h=>{
+    h.y-=h.v;if(h.y<-40){h.y=H+40;h.x=rand(0,W)}
+    ctx.globalAlpha=h.a;ctx.save();ctx.translate(h.x,h.y);ctx.rotate(h.rot);
+    ctx.fillStyle='#e88eaf';ctx.font=`${h.s}px serif`;ctx.fillText('♥',0,0);ctx.restore();
+  });
+  ctx.globalAlpha=1;requestAnimationFrame(draw);
+}
+draw();
+
+let current=1;
+function playTone(freq=520,dur=.08){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    const ac=new AC(),o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.0001,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(.06,ac.currentTime+.01);
+    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);
+    o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+dur+.02);
+  }catch(e){}
+}
+function nextLayer(){
+  playTone(660,.1);
+  const old=document.getElementById('layer'+current);
+  old.classList.remove('active');
+  current++;
+  const next=document.getElementById('layer'+current);
+  setTimeout(()=>next.classList.add('active'),180);
+}
+function finish(){
+  playTone(780,.15);
+  document.querySelector('.layer.active').classList.add('fadeout');
+  setTimeout(()=>document.getElementById('app').style.transition='opacity 1.8s',1500);
+  setTimeout(()=>document.getElementById('app').style.opacity='0',1600);
+}
+document.querySelectorAll('[data-sound]').forEach(b=>b.addEventListener('click',()=>playTone(500,.07)));
+</script>
+</body>
+</html>
